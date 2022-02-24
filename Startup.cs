@@ -27,9 +27,17 @@ namespace SampleCloudAKSDeploy
         {
 
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SampleCloudAKSDeploy", Version = "v1" });
+            });
+            services.AddCors(c =>
+            {
+                c.AddPolicy("MyCors", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
             });
         }
 
@@ -44,7 +52,7 @@ namespace SampleCloudAKSDeploy
             }
 
             app.UseRouting();
-
+            app.UseCors("MyCors");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
